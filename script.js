@@ -6,7 +6,8 @@ const GameBoard = (() => {
     ['', '', ''],
     ['', '', ''],
   ];
-  let _currentPlayer = 'X';
+
+  let _currentPlayer;
 
   const checkForWinner = () => {
     //check rows & cols:
@@ -33,6 +34,10 @@ const GameBoard = (() => {
     return false;
   };
 
+  const _endGame = () => {
+    physicalBoard = physicalBoard.map((arr) => arr.map((i) => (i = '')));
+  };
+
   //Add player sign to the chosen location:
   const play = (sign, row, col) => {
     _currentPlayer = sign;
@@ -40,6 +45,11 @@ const GameBoard = (() => {
       physicalBoard[row][col] = _currentPlayer;
       console.log(`Is winner: ${checkForWinner()}`);
       console.log(physicalBoard);
+      //End game if there's a winner:
+      if (checkForWinner() === true) {
+        _endGame();
+        console.log(physicalBoard, checkForWinner());
+      }
     }
   };
 
