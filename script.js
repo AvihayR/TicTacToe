@@ -9,6 +9,11 @@ const GameBoard = (() => {
 
   let _currentPlayer;
 
+  const showCurrentPlayer = () => {
+    let player = _currentPlayer;
+    return player;
+  };
+
   const checkForWinner = () => {
     //check rows & cols:
     for (let i = 0; i < 3; i++) {
@@ -47,13 +52,13 @@ const GameBoard = (() => {
       console.log(physicalBoard);
       //End game if there's a winner:
       if (checkForWinner() === true) {
-        _endGame();
+        //_endGame();
         console.log(physicalBoard, checkForWinner());
       }
     }
   };
 
-  return { play, checkForWinner };
+  return { play, checkForWinner, showCurrentPlayer };
 })();
 
 //run example:
@@ -61,7 +66,6 @@ const GameBoard = (() => {
 
 //factory function - Player:
 const Player = (sign) => {
-  //Private variables playerSign and ChosenLocation:
   const _playerSign = sign;
   //play method to choose a next spot to play in:
   const play = (row, col) => {
@@ -73,3 +77,29 @@ const Player = (sign) => {
 //run example:
 //const myPlayer = Player('x');
 //myPlayer.play(0)
+
+//
+
+/* -- Under construction: --
+const gameFlow = (() => {
+  //set players on scoreBoard:
+  const setPlayers = (playerSign1, playerSign2) => {
+    _scoreBoard.playerSign1 = 0;
+    _scoreBoard.playerSign2 = 0;
+  };
+
+  //score board obj - private variable
+  let _scoreBoard = {};
+
+  const addPoint = () => {
+    if (GameBoard.checkForWinner() === true) {
+      let playerSign = GameBoard.showCurrentPlayer();
+      _scoreBoard.playerSign += 1;
+      console.log(
+        `Scoreboard: ${_scoreBoard.playerSign1} , ${_scoreBoard.playerSign2}`
+      );
+    }
+  };
+  return { setPlayers, addPoint };
+})();
+*/
