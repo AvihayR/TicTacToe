@@ -9,7 +9,48 @@ body{
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    align-items: center;
+    background-color: var(--hotpink);
 }
+
+main,footer{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/*--------------------
+CSS Vars - colors:
+--------------------*/
+:root{
+    --graphite: #27272a;
+    --hard-graphite: #18181b;
+    --stone: #525252;
+    --light-stone: #a8a29e;
+    --melon: #F9B9B7;
+    --hotpink: #F06C9B;
+    --yellowpeach: #F5D491;
+    --skyblue: #96C9DC;
+    --moonstone: #61A0AF;
+
+}
+
+
+/*---------------------
+Header section: 
+---------------------*/
+header{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 3.5rem;
+    background-color: var(--skyblue);
+}
+
+header>h1{
+    font-size: 3rem;
+}
+
 /*---------------------
 Cards styling section: 
 ---------------------*/
@@ -18,14 +59,29 @@ main{
 }
 
 .card-container{
-    height: 10rem;
-    width: 15rem;
     display: grid;
+    height: 20rem;
+    width: 60%;
     grid-template-columns: repeat(3,1fr);
+    gap: 1rem;
 }
 
 .card{
+    width: 100%;
+    height: 100%;
     display: flex;
     flex: 1;
     font-size: 2rem;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--melon);
+    color: var(--moonstone);
+}
+
+
+/*---------------------
+Footer section: 
+---------------------*/
+footer{
+    background-color: var(--yellowpeach);
 }
