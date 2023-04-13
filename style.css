@@ -139,19 +139,26 @@ Modal Styling:
 #player-1-name, #player-2-name{
     width: 70%;
     font-size: 2rem;
+    font-weight: 700;
     border-radius: 8px;
-    border: 2px solid white;
-    background-color: var(--hotpink);
-    color: var(--melon);
+    border: none;
+    background-color: var(--skyblue);
+    color: var(--hotpink);
+    text-shadow: 2px 2px white;
 }
 
 
-h2.modal-header{
+h2.modal-header,h3.modal-header{
     font-size: 2rem;
-    margin-bottom: 1.5rem;
     font-weight: 600;
     color: white;
     text-shadow: 3px 3px var(--hotpink);
+}
+
+h3.modal-header{
+    margin-top: 0.3rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
 }
 
 h2.player-sign{
