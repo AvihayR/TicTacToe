@@ -116,7 +116,7 @@ Modal Styling:
     background-color: var(--skyblue);
 }
 
-.modal-content>.forms-container{
+.modal-content>.form-container{
     display: flex;
     justify-content: space-between;
     width:100%;
@@ -124,19 +124,15 @@ Modal Styling:
     align-items: center;
 }
 
-.forms-container>form{
+.form-container>form{
     display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    min-height: 70%;
-    justify-content: space-evenly;
-    align-items: center;
+    height: 80%;
+    gap: 10px;
     align-self: flex-start;
-    gap: 20px;
 }
 
 #player-1-name, #player-2-name{
-    width: 70%;
+    width: 100%;
     font-size: 2rem;
     font-weight: 700;
     border-radius: 8px;
@@ -147,8 +143,15 @@ Modal Styling:
     text-align: center;
 }
 
+.player-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
-h2.modal-header,h3.modal-header{
+
+.modal-header{
     font-size: 2rem;
     font-weight: 600;
     color: white;
@@ -178,14 +181,14 @@ h2.player-sign{
     border: 2px solid white;
     background-color: var(--moonstone);
     color: var(--mineralwater);
-    box-shadow: 4px 5px white;
-    transition: 0.5s;
+    box-shadow: 6px 5px white;
+    transition: 0.2s;
     cursor: pointer;
 }
 
 .form-btn:hover{
     transform: translate(2px,1px);
-    box-shadow: 3px 3px white;
+    box-shadow: 3px 2px white;
     filter: brightness(130%);
 }
 
@@ -206,7 +209,7 @@ h2.player-sign{
 }
 
 div.line-break{
-    height: 90%;
+    height: 100%;
     border-right: 5px dashed white;
     align-self: flex-start;
     margin-top: 5px;
