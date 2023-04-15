@@ -39,7 +39,7 @@ const GameBoard = (() => {
     return false;
   };
 
-  const _endGame = () => {
+  const _endRound = () => {
     physicalBoard = physicalBoard.map((arr) => arr.map((i) => (i = '')));
   };
 
@@ -52,7 +52,7 @@ const GameBoard = (() => {
       console.log(physicalBoard);
       //End game if there's a winner:
       if (checkForWinner() === true) {
-        //_endGame();
+        //_endRound();
         console.log(physicalBoard, checkForWinner());
       }
     }
@@ -78,18 +78,32 @@ const Player = (sign) => {
 //const myPlayer = Player('x');
 //myPlayer.play(0)
 
-//
-
-/* -- Under construction: --
-const gameFlow = (() => {
-  //set players on scoreBoard:
-  const setPlayers = (playerSign1, playerSign2) => {
-    _scoreBoard.playerSign1 = 0;
-    _scoreBoard.playerSign2 = 0;
+const scoreBoard = (() => {
+  let players = {};
+  let score = {};
+  const registerPlayers = ([name1, sign1], [name2, sign2]) => {
+    players[name1] = { sign: sign1, score: 0 };
+    players[name2] = { sign: sign2, score: 0 };
+    return players;
   };
 
+  const addPoint = (name) => {
+    players[name].score += 1;
+    return players;
+  };
+  return { registerPlayers, addPoint };
+})();
+
+/*
+const gameFlow = (() => {
   //score board obj - private variable
   let _scoreBoard = {};
+
+  //set players on scoreBoard:
+  const setPlayers = (playerSign1, playerSign2) => {
+    _scoreBoard.playerSign1;
+    _scoreBoard.playerSign2;
+  };
 
   const addPoint = () => {
     if (GameBoard.checkForWinner() === true) {
