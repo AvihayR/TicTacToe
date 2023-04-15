@@ -80,11 +80,10 @@ const Player = (sign) => {
 
 const scoreBoard = (() => {
   let players = {};
-  let score = {};
   const registerPlayers = ([name1, sign1], [name2, sign2]) => {
     players[name1] = { sign: sign1, score: 0 };
     players[name2] = { sign: sign2, score: 0 };
-    return players;
+    console.log(players);
   };
 
   const addPoint = (name) => {
@@ -94,6 +93,27 @@ const scoreBoard = (() => {
   return { registerPlayers, addPoint };
 })();
 
+//Query selectors:
+let playersForm = document.querySelector('.players');
+let playBtn = document.querySelector('.play-btn');
+let playerOneName = document.getElementById('player-1-name');
+let playerTwoName = document.getElementById('player-2-name');
+let playerOneSign = document.getElementById('player-1-sign');
+let playerTwoSign = document.getElementById('player-2-sign');
+
+//DOM:
+playBtn.addEventListener('click', () => {
+  scoreBoard.registerPlayers(
+    [playerOneName.value, playerOneSign.textContent],
+    [playerTwoName.value, playerTwoSign.textContent]
+  );
+  const playerOne = Player(playerOneSign.textContent);
+  const playerTwo = Player(playerTwoSign.textContent);
+});
+
+//
+//
+//
 /*
 const gameFlow = (() => {
   //score board obj - private variable
