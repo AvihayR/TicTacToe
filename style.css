@@ -62,7 +62,10 @@ Cards styling section:
 ---------------------*/
 main{
     flex-grow: 1;
-    margin-top: 5rem;
+    margin-top: 2rem;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .card-container{
@@ -92,7 +95,6 @@ main{
 Modal Styling:
 ------------*/
 .modal{
-    /*display: none;*/
     position: fixed;
     z-index: 0;
     left: 0;
@@ -101,6 +103,10 @@ Modal Styling:
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.356);
+}
+
+.hidden{
+    display: none;
 }
 
 .modal>.modal-content{
@@ -147,11 +153,11 @@ Modal Styling:
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
 
-.modal-header{
+.modal-header,.player-card{
     font-size: 2rem;
     font-weight: 600;
     color: white;
@@ -213,6 +219,25 @@ div.line-break{
     border-right: 5px dashed white;
     align-self: flex-start;
     margin-top: 5px;
+}
+
+/*--------------------
+Scoreboard styling:
+--------------------*/
+.scoreboard-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 7.5rem;
+    margin-bottom: 1rem;
+}
+
+.player-card{
+    display: flex;
+    flex-direction: column;
+    height: 5rem;
+    align-items: center;
+    justify-content: space-around;
 }
 
 /*---------------------

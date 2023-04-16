@@ -65,13 +65,18 @@ const GameBoard = (() => {
 //GameBoard.play('x',3);
 
 //factory function - Player:
-const Player = (sign) => {
+const Player = (name, sign) => {
   const _playerSign = sign;
+  const _playerName = name;
   //play method to choose a next spot to play in:
   const play = (row, col) => {
     GameBoard.play(_playerSign, row, col);
   };
-  return { play };
+
+  const show = () => {
+    return [_playerName, _playerSign];
+  };
+  return { play, show };
 };
 
 //run example:
@@ -80,6 +85,7 @@ const Player = (sign) => {
 
 const scoreBoard = (() => {
   let players = {};
+
   const registerPlayers = ([name1, sign1], [name2, sign2]) => {
     players[name1] = { sign: sign1, score: 0 };
     players[name2] = { sign: sign2, score: 0 };
@@ -90,25 +96,68 @@ const scoreBoard = (() => {
     players[name].score += 1;
     return players;
   };
-  return { registerPlayers, addPoint };
+
+  const showScore = () => {
+    let playerNames = Object.keys(players);
+    const score = playerNames.map((name) => players[name].score);
+    let currentScore = [playerNames[0], score[0], playerNames[1], score[1]];
+    return currentScore;
+  };
+
+  return { registerPlayers, addPoint, showScore };
 })();
 
 //Query selectors:
-let playersForm = document.querySelector('.players');
-let playBtn = document.querySelector('.play-btn');
-let playerOneName = document.getElementById('player-1-name');
-let playerTwoName = document.getElementById('player-2-name');
-let playerOneSign = document.getElementById('player-1-sign');
-let playerTwoSign = document.getElementById('player-2-sign');
+const playersForm = document.querySelector('.players');
+const playBtn = document.querySelector('.play-btn');
+//Get player names and signs from input fields at modal:
+const playerOneName = document.getElementById('player-1-name');
+const playerTwoName = document.getElementById('player-2-name');
+const playerOneSign = document.getElementById('player-1-sign');
+const playerTwoSign = document.getElementById('player-2-sign');
+const modal = document.querySelector('.modal');
+const scoreBoardContainerDOM = document.querySelector('.scoreboard-container');
 
 //DOM:
+let playerOne;
+let playerTwo;
+
 playBtn.addEventListener('click', () => {
-  scoreBoard.registerPlayers(
-    [playerOneName.value, playerOneSign.textContent],
-    [playerTwoName.value, playerTwoSign.textContent]
-  );
-  const playerOne = Player(playerOneSign.textContent);
-  const playerTwo = Player(playerTwoSign.textContent);
+  //create two player objects at "Play" button
+  playerOne = Player(playerOneName.value, playerOneSign.textContent);
+  playerTwo = Player(playerTwoName.value, playerTwoSign.textContent);
+  console.log(playerOne, playerTwo);
+
+  //register created players at Score board:
+  scoreBoard.registerPlayers(playerOne.show(), playerTwo.show());
+
+  //hide modal:
+  modal.classList.add('hidden');
+
+  //Create & render score board player names and signs:
+  let firstCard = document.createElement('div');
+  firstCard.classList.add('player-card');
+  firstCard.classList.add('1');
+  let firstPlayerName = document.createElement('h2');
+  let firstPlayerScore = document.createElement('p');
+
+  let secondCard = document.createElement('div');
+  secondCard.classList.add('player-card');
+  secondCard.classList.add('2');
+  let secondPlayerName = document.createElement('h2');
+  let secondPlayerScore = document.createElement('p');
+
+  firstPlayerName.textContent = scoreBoard.showScore()[0];
+  secondPlayerName.textContent = scoreBoard.showScore()[2];
+  firstPlayerScore.textContent = scoreBoard.showScore()[1];
+  secondPlayerScore.textContent = scoreBoard.showScore()[3];
+
+  firstCard.appendChild(firstPlayerName);
+  firstCard.appendChild(firstPlayerScore);
+  secondCard.appendChild(secondPlayerName);
+  secondCard.appendChild(secondPlayerScore);
+  scoreBoardContainerDOM.appendChild(firstCard);
+  scoreBoardContainerDOM.appendChild(secondCard);
 });
 
 //
