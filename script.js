@@ -53,6 +53,7 @@ const GameBoard = (() => {
       //End game if there's a winner:
       if (checkForWinner() === true) {
         //_endRound();
+        scoreBoard.addPoint(_currentPlayer);
         console.log(physicalBoard, checkForWinner());
       }
     }
@@ -86,9 +87,9 @@ const Player = (name, sign) => {
 const scoreBoard = (() => {
   let players = {};
 
-  const registerPlayers = ([name1, sign1], [name2, sign2]) => {
-    players[name1] = { sign: sign1, score: 0 };
-    players[name2] = { sign: sign2, score: 0 };
+  const registerPlayers = (sign1, sign2) => {
+    players[sign1] = { score: 0 };
+    players[sign2] = { score: 0 };
     console.log(players);
   };
 
@@ -100,8 +101,8 @@ const scoreBoard = (() => {
   const showScore = () => {
     let playerNames = Object.keys(players);
     const score = playerNames.map((name) => players[name].score);
-    let currentScore = [playerNames[0], score[0], playerNames[1], score[1]];
-    return currentScore;
+    //let currentScore = [playerNames[0], score[0], playerNames[1], score[1]];
+    return score;
   };
 
   return { registerPlayers, addPoint, showScore };
@@ -129,7 +130,7 @@ playBtn.addEventListener('click', () => {
   console.log(playerOne, playerTwo);
 
   //register created players at Score board:
-  scoreBoard.registerPlayers(playerOne.show(), playerTwo.show());
+  scoreBoard.registerPlayers(playerOne.show()[1], playerTwo.show()[1]);
 
   //hide modal:
   modal.classList.add('hidden');
@@ -147,10 +148,10 @@ playBtn.addEventListener('click', () => {
   let secondPlayerName = document.createElement('h2');
   let secondPlayerScore = document.createElement('p');
 
-  firstPlayerName.textContent = scoreBoard.showScore()[0];
-  secondPlayerName.textContent = scoreBoard.showScore()[2];
-  firstPlayerScore.textContent = scoreBoard.showScore()[1];
-  secondPlayerScore.textContent = scoreBoard.showScore()[3];
+  firstPlayerName.textContent = playerOneName.value;
+  secondPlayerName.textContent = playerTwoName.value;
+  firstPlayerScore.textContent = scoreBoard.showScore()[0];
+  secondPlayerScore.textContent = scoreBoard.showScore()[1];
 
   firstCard.appendChild(firstPlayerName);
   firstCard.appendChild(firstPlayerScore);
