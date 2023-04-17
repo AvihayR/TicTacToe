@@ -118,6 +118,7 @@ const playerOneSign = document.getElementById('player-1-sign');
 const playerTwoSign = document.getElementById('player-2-sign');
 const modal = document.querySelector('.modal');
 const scoreBoardContainerDOM = document.querySelector('.scoreboard-container');
+let allCards = document.querySelectorAll('.card');
 
 //DOM:
 let playerOne;
@@ -159,6 +160,10 @@ playBtn.addEventListener('click', () => {
   secondCard.appendChild(secondPlayerScore);
   scoreBoardContainerDOM.appendChild(firstCard);
   scoreBoardContainerDOM.appendChild(secondCard);
+});
+
+allCards = Array.from(allCards).map((card) => {
+  card.addEventListener('click', () => console.log('clicked'));
 });
 
 //
