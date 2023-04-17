@@ -108,6 +108,27 @@ const scoreBoard = (() => {
   return { registerPlayers, addPoint, showScore };
 })();
 
+//
+
+/*--------flowHandler - Under construction - consider moving into gameBoard module------
+
+const flowHandler = ((playerSign1, playerSign2) => {
+  const players = [playerSign1, playerSign2];
+
+  let currentPlayer;
+
+  const useTurn = () => {
+    if (GameBoard.showCurrentPlayer == undefined) {
+      currentPlayer = players[Math.floor(Math.random() * 2)];
+      console.log(currentPlayer);
+    } else {
+      currentPlayer = GameBoard.showCurrentPlayer();
+      currentPlayer = currentPlayer 
+    }
+  };
+})();
+----------------------------------------------------------------------*/
+
 //Query selectors:
 const playersForm = document.querySelector('.players');
 const playBtn = document.querySelector('.play-btn');
@@ -124,8 +145,8 @@ let allCards = document.querySelectorAll('.card');
 let playerOne;
 let playerTwo;
 
+//Start the game at the 'Play' Button:
 playBtn.addEventListener('click', () => {
-  //create two player objects at "Play" button
   playerOne = Player(playerOneName.value, playerOneSign.textContent);
   playerTwo = Player(playerTwoName.value, playerTwoSign.textContent);
   console.log(playerOne, playerTwo);
@@ -163,7 +184,11 @@ playBtn.addEventListener('click', () => {
 });
 
 allCards = Array.from(allCards).map((card) => {
-  card.addEventListener('click', () => console.log('clicked'));
+  card.addEventListener('click', () => {
+    //add flow-handler here
+    console.log('clicked');
+    card.textContent = GameBoard.showCurrentPlayer();
+  });
 });
 
 //
