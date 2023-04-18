@@ -59,7 +59,27 @@ const GameBoard = (() => {
     }
   };
 
-  return { play, checkForWinner, showCurrentPlayer };
+  const pickRandomPlayer = () => {
+    if (GameBoard.showCurrentPlayer() == undefined) {
+      let players = [playerOne, playerTwo];
+      let randomPlayer = players[Math.floor(Math.random() * 2)];
+      return (_currentPlayer = randomPlayer.show().sign);
+    }
+  };
+
+  const changeCurrentPlayer = (players) => {
+    //_currentPlayer = players.filter((player) => player !== _currentPlayer);
+    let nextPlayer = players.filter((player) => player !== _currentPlayer);
+    _currentPlayer = nextPlayer.toString();
+  };
+
+  return {
+    play,
+    checkForWinner,
+    showCurrentPlayer,
+    pickRandomPlayer,
+    changeCurrentPlayer,
+  };
 })();
 
 //run example:
@@ -75,7 +95,7 @@ const Player = (name, sign) => {
   };
 
   const show = () => {
-    return [_playerName, _playerSign];
+    return { name: _playerName, sign: _playerSign };
   };
   return { play, show };
 };
@@ -86,11 +106,16 @@ const Player = (name, sign) => {
 
 const scoreBoard = (() => {
   let players = {};
+  let players1;
 
   const registerPlayers = (sign1, sign2) => {
     players[sign1] = { score: 0 };
     players[sign2] = { score: 0 };
     console.log(players);
+  };
+
+  const registerPlayers1 = (obj1, obj2) => {
+    players1 = [obj1, obj2];
   };
 
   const addPoint = (name) => {
@@ -105,34 +130,29 @@ const scoreBoard = (() => {
     return score;
   };
 
-  return { registerPlayers, addPoint, showScore };
-})();
+  const showPlayers = () => {
+    return players1;
+  };
 
-//
+  const findCurrent = () => {
+    return players1.filter(
+      (player) => player.show().sign != GameBoard.showCurrentPlayer()
+    );
+  };
 
-/*--------flowHandler - Under construction - consider moving into gameBoard module------
-
-const flowHandler = ((playerSign1, playerSign2) => {
-  const players = [playerSign1, playerSign2];
-
-  let currentPlayer;
-
-  const useTurn = () => {
-    if (GameBoard.showCurrentPlayer == undefined) {
-      currentPlayer = players[Math.floor(Math.random() * 2)];
-      console.log(currentPlayer);
-    } else {
-      currentPlayer = GameBoard.showCurrentPlayer();
-      currentPlayer = currentPlayer 
-    }
+  return {
+    registerPlayers,
+    registerPlayers1,
+    addPoint,
+    showScore,
+    showPlayers,
+    findCurrent,
   };
 })();
-----------------------------------------------------------------------*/
 
 //Query selectors:
 const playersForm = document.querySelector('.players');
 const playBtn = document.querySelector('.play-btn');
-//Get player names and signs from input fields at modal:
 const playerOneName = document.getElementById('player-1-name');
 const playerTwoName = document.getElementById('player-2-name');
 const playerOneSign = document.getElementById('player-1-sign');
@@ -152,7 +172,11 @@ playBtn.addEventListener('click', () => {
   console.log(playerOne, playerTwo);
 
   //register created players at Score board:
-  scoreBoard.registerPlayers(playerOne.show()[1], playerTwo.show()[1]);
+  scoreBoard.registerPlayers(playerOne.show().sign, playerTwo.show().sign);
+  scoreBoard.registerPlayers1(playerOne, playerTwo);
+
+  //choose a random starting player:
+  GameBoard.pickRandomPlayer();
 
   //hide modal:
   modal.classList.add('hidden');
@@ -183,37 +207,16 @@ playBtn.addEventListener('click', () => {
   scoreBoardContainerDOM.appendChild(secondCard);
 });
 
+//listen to all cards, on click play nextPlayer in the right spot in the gameBoard + Render to screen.
 allCards = Array.from(allCards).map((card) => {
   card.addEventListener('click', () => {
-    //add flow-handler here
-    console.log('clicked');
+    //identify target card location in DOM:
+    let target = event.target;
+    let credentials = [target.dataset.row, target.dataset.col];
+
+    //play in logical game & add sign (X/O) to card text context:
+    scoreBoard.findCurrent()[0].play(credentials[0], credentials[1]);
     card.textContent = GameBoard.showCurrentPlayer();
   });
+  GameBoard.changeCurrentPlayer(['O', 'X']);
 });
-
-//
-//
-//
-/*
-const gameFlow = (() => {
-  //score board obj - private variable
-  let _scoreBoard = {};
-
-  //set players on scoreBoard:
-  const setPlayers = (playerSign1, playerSign2) => {
-    _scoreBoard.playerSign1;
-    _scoreBoard.playerSign2;
-  };
-
-  const addPoint = () => {
-    if (GameBoard.checkForWinner() === true) {
-      let playerSign = GameBoard.showCurrentPlayer();
-      _scoreBoard.playerSign += 1;
-      console.log(
-        `Scoreboard: ${_scoreBoard.playerSign1} , ${_scoreBoard.playerSign2}`
-      );
-    }
-  };
-  return { setPlayers, addPoint };
-})();
-*/
