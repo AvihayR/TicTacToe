@@ -36,13 +36,14 @@ const GameBoard = (() => {
     }
 
     //Check Diagonals:
+    let currentPlayer = _currentPlayer.show().sign;
     if (
-      (physicalBoard[0][0] == _currentPlayer &&
-        physicalBoard[1][1] == _currentPlayer &&
-        physicalBoard[2][2] == _currentPlayer) ||
-      (physicalBoard[0][2] == _currentPlayer &&
-        physicalBoard[1][1] == _currentPlayer &&
-        physicalBoard[2][0] == _currentPlayer)
+      (physicalBoard[0][0] == currentPlayer &&
+        physicalBoard[1][1] == currentPlayer &&
+        physicalBoard[2][2] == currentPlayer) ||
+      (physicalBoard[0][2] == currentPlayer &&
+        physicalBoard[1][1] == currentPlayer &&
+        physicalBoard[2][0] == currentPlayer)
     ) {
       return true;
     }
@@ -54,16 +55,15 @@ const GameBoard = (() => {
   };
 
   //Add player sign to the chosen location:
-  const play = (sign, row, col) => {
-    _currentPlayer = sign;
+  const play = (row, col) => {
+    //_currentPlayer = this;
     if (physicalBoard[row][col] == '') {
-      physicalBoard[row][col] = _currentPlayer;
+      physicalBoard[row][col] = _currentPlayer.show().sign;
       console.log(`Is winner: ${checkForWinner()}`);
       console.log(physicalBoard);
       //End game if there's a winner:
       if (checkForWinner() === true) {
         //_endRound();
-        scoreBoard.addPoint(_currentPlayer);
         console.log(physicalBoard, checkForWinner());
       }
     }
@@ -73,17 +73,17 @@ const GameBoard = (() => {
     if (GameBoard.showCurrentPlayer() == undefined) {
       let randomPlayer =
         GameBoard.showAllPlayers()[Math.floor(Math.random() * 2)];
-      return (_currentPlayer = randomPlayer.show());
+      return (_currentPlayer = randomPlayer);
     }
   };
 
   const nextTurn = () => {
-    let allPlayers = GameBoard.showAllPlayers().map((p) => p.show());
+    let allPlayers = GameBoard.showAllPlayers().map((p) => p);
     let nextPlayer = allPlayers.filter(
-      (p) => p.sign !== GameBoard.showCurrentPlayer().sign
+      (p) => p.show().sign !== GameBoard.showCurrentPlayer().show().sign
     );
     _currentPlayer = nextPlayer[0];
-    console.log(nextPlayer);
+    console.log(`nextPlayer is: ${nextPlayer}`);
 
     /* let nextPlayer = players.filter(
       (player) => player.show().sign !== GameBoard.showCurrentPlayer().sign
@@ -111,7 +111,7 @@ const Player = (name, sign) => {
   const _playerName = name;
   //play method to choose a next spot to play in:
   const play = (row, col) => {
-    GameBoard.play(_playerSign, row, col);
+    GameBoard.play(row, col);
   };
 
   const show = () => {
@@ -143,10 +143,6 @@ playBtn.addEventListener('click', () => {
   GameBoard.registerPlayer(playerTwo);
   console.log(playerOne, playerTwo);
 
-  //register created players at Score board:
-  //scoreBoard.registerPlayers(playerOne.show().sign, playerTwo.show().sign);
-  //scoreBoard.registerPlayers1(playerOne, playerTwo);
-
   //choose a random starting player:
   GameBoard.pickRandomPlayer();
 
@@ -168,8 +164,6 @@ playBtn.addEventListener('click', () => {
 
   firstPlayerName.textContent = playerOneName.value;
   secondPlayerName.textContent = playerTwoName.value;
-  //firstPlayerScore.textContent = scoreBoard.showScore()[0];
-  //secondPlayerScore.textContent = scoreBoard.showScore()[1];
 
   firstCard.appendChild(firstPlayerName);
   firstCard.appendChild(firstPlayerScore);
@@ -191,7 +185,8 @@ allCards = Array.from(allCards).map((card) => {
 
     //play in logical game & add sign (X/O) to card text context:
 
-    card.textContent = GameBoard.showCurrentPlayer().sign;
+    card.textContent = GameBoard.showCurrentPlayer().show().sign;
+    GameBoard.showCurrentPlayer().play(credentials[0], credentials[1]);
     GameBoard.nextTurn(GameBoard.showAllPlayers());
   });
 });
