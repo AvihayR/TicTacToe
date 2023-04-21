@@ -7,7 +7,17 @@ const GameBoard = (() => {
     ['', '', ''],
   ];
 
+  let playersContainer = [];
   let _currentPlayer;
+
+  const registerPlayer = (player) => {
+    playersContainer.push(player);
+    console.log(playersContainer);
+  };
+
+  const showAllPlayers = () => {
+    return playersContainer;
+  };
 
   const showCurrentPlayer = () => {
     let player = _currentPlayer;
@@ -61,16 +71,24 @@ const GameBoard = (() => {
 
   const pickRandomPlayer = () => {
     if (GameBoard.showCurrentPlayer() == undefined) {
-      let players = [playerOne, playerTwo];
-      let randomPlayer = players[Math.floor(Math.random() * 2)];
-      return (_currentPlayer = randomPlayer.show().sign);
+      let randomPlayer =
+        GameBoard.showAllPlayers()[Math.floor(Math.random() * 2)];
+      return (_currentPlayer = randomPlayer.show());
     }
   };
 
-  const changeCurrentPlayer = (players) => {
-    //_currentPlayer = players.filter((player) => player !== _currentPlayer);
-    let nextPlayer = players.filter((player) => player !== _currentPlayer);
-    _currentPlayer = nextPlayer.toString();
+  const nextTurn = () => {
+    let allPlayers = GameBoard.showAllPlayers().map((p) => p.show());
+    let nextPlayer = allPlayers.filter(
+      (p) => p.sign !== GameBoard.showCurrentPlayer().sign
+    );
+    _currentPlayer = nextPlayer[0];
+    console.log(nextPlayer);
+
+    /* let nextPlayer = players.filter(
+      (player) => player.show().sign !== GameBoard.showCurrentPlayer().sign
+    );
+    _currentPlayer = nextPlayer[0];*/
   };
 
   return {
@@ -78,7 +96,9 @@ const GameBoard = (() => {
     checkForWinner,
     showCurrentPlayer,
     pickRandomPlayer,
-    changeCurrentPlayer,
+    nextTurn,
+    registerPlayer,
+    showAllPlayers,
   };
 })();
 
@@ -100,56 +120,6 @@ const Player = (name, sign) => {
   return { play, show };
 };
 
-//run example:
-//const myPlayer = Player('x');
-//myPlayer.play(0)
-
-const scoreBoard = (() => {
-  let players = {};
-  let players1;
-
-  const registerPlayers = (sign1, sign2) => {
-    players[sign1] = { score: 0 };
-    players[sign2] = { score: 0 };
-    console.log(players);
-  };
-
-  const registerPlayers1 = (obj1, obj2) => {
-    players1 = [obj1, obj2];
-  };
-
-  const addPoint = (name) => {
-    players[name].score += 1;
-    return players;
-  };
-
-  const showScore = () => {
-    let playerNames = Object.keys(players);
-    const score = playerNames.map((name) => players[name].score);
-    //let currentScore = [playerNames[0], score[0], playerNames[1], score[1]];
-    return score;
-  };
-
-  const showPlayers = () => {
-    return players1;
-  };
-
-  const findCurrent = () => {
-    return players1.filter(
-      (player) => player.show().sign != GameBoard.showCurrentPlayer()
-    );
-  };
-
-  return {
-    registerPlayers,
-    registerPlayers1,
-    addPoint,
-    showScore,
-    showPlayers,
-    findCurrent,
-  };
-})();
-
 //Query selectors:
 const playersForm = document.querySelector('.players');
 const playBtn = document.querySelector('.play-btn');
@@ -169,11 +139,13 @@ let playerTwo;
 playBtn.addEventListener('click', () => {
   playerOne = Player(playerOneName.value, playerOneSign.textContent);
   playerTwo = Player(playerTwoName.value, playerTwoSign.textContent);
+  GameBoard.registerPlayer(playerOne);
+  GameBoard.registerPlayer(playerTwo);
   console.log(playerOne, playerTwo);
 
   //register created players at Score board:
-  scoreBoard.registerPlayers(playerOne.show().sign, playerTwo.show().sign);
-  scoreBoard.registerPlayers1(playerOne, playerTwo);
+  //scoreBoard.registerPlayers(playerOne.show().sign, playerTwo.show().sign);
+  //scoreBoard.registerPlayers1(playerOne, playerTwo);
 
   //choose a random starting player:
   GameBoard.pickRandomPlayer();
@@ -196,8 +168,8 @@ playBtn.addEventListener('click', () => {
 
   firstPlayerName.textContent = playerOneName.value;
   secondPlayerName.textContent = playerTwoName.value;
-  firstPlayerScore.textContent = scoreBoard.showScore()[0];
-  secondPlayerScore.textContent = scoreBoard.showScore()[1];
+  //firstPlayerScore.textContent = scoreBoard.showScore()[0];
+  //secondPlayerScore.textContent = scoreBoard.showScore()[1];
 
   firstCard.appendChild(firstPlayerName);
   firstCard.appendChild(firstPlayerScore);
@@ -207,16 +179,19 @@ playBtn.addEventListener('click', () => {
   scoreBoardContainerDOM.appendChild(secondCard);
 });
 
-//listen to all cards, on click play nextPlayer in the right spot in the gameBoard + Render to screen.
 allCards = Array.from(allCards).map((card) => {
   card.addEventListener('click', () => {
+    if (card.classList.contains('.played')) {
+      return;
+    }
+    card.classList.add('.played');
     //identify target card location in DOM:
     let target = event.target;
     let credentials = [target.dataset.row, target.dataset.col];
 
     //play in logical game & add sign (X/O) to card text context:
-    scoreBoard.findCurrent()[0].play(credentials[0], credentials[1]);
-    card.textContent = GameBoard.showCurrentPlayer();
+
+    card.textContent = GameBoard.showCurrentPlayer().sign;
+    GameBoard.nextTurn(GameBoard.showAllPlayers());
   });
-  GameBoard.changeCurrentPlayer(['O', 'X']);
 });
