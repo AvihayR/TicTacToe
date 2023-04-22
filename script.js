@@ -64,7 +64,7 @@ const GameBoard = (() => {
       console.log(physicalBoard);
       //End game if there's a winner:
       if (checkForWinner() === true) {
-        //Add played
+        scoreBoard.addPoint(GameBoard.showCurrentPlayer().show());
         Array.from(document.querySelectorAll('.card')).map((card) =>
           card.classList.add('played')
         );
@@ -125,6 +125,27 @@ const Player = (name, sign) => {
   return { play, show };
 };
 
+const scoreBoard = (() => {
+  let players;
+
+  const initScore = () => {
+    players = GameBoard.showAllPlayers().map((p) => p.show());
+    players.map((p) => (p.points = 0));
+    console.log(players);
+  };
+
+  const addPoint = (chosenPlayer) => {
+    players.forEach((p) => {
+      if (chosenPlayer.sign == p.sign) {
+        p.points += 1;
+      }
+      console.log(players);
+    });
+  };
+
+  return { initScore, addPoint };
+})();
+
 //Query selectors:
 const playersForm = document.querySelector('.players');
 const playBtn = document.querySelector('.play-btn');
@@ -147,7 +168,7 @@ playBtn.addEventListener('click', () => {
   GameBoard.registerPlayer(playerOne);
   GameBoard.registerPlayer(playerTwo);
   console.log(playerOne, playerTwo);
-
+  scoreBoard.initScore();
   //choose a random starting player:
   GameBoard.pickRandomPlayer();
 
@@ -194,6 +215,8 @@ allCards = Array.from(allCards).map((card) => {
 
     card.textContent = GameBoard.showCurrentPlayer().show().sign;
     GameBoard.showCurrentPlayer().play(credentials[0], credentials[1]);
-    GameBoard.nextTurn(GameBoard.showAllPlayers());
+    if (GameBoard.checkForWinner() !== true) {
+      GameBoard.nextTurn(GameBoard.showAllPlayers());
+    }
   });
 });
