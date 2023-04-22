@@ -25,18 +25,19 @@ const GameBoard = (() => {
   };
 
   const checkForWinner = () => {
+    let currentPlayer = _currentPlayer.show().sign;
     //check rows & cols:
     for (let i = 0; i < 3; i++) {
       if (
-        physicalBoard[i].every((square) => square === _currentPlayer) ||
-        physicalBoard.every((row) => row[i] === _currentPlayer)
+        physicalBoard[i].every((square) => square === currentPlayer) ||
+        physicalBoard.every((row) => row[i] === currentPlayer)
       ) {
         return true;
       }
     }
 
     //Check Diagonals:
-    let currentPlayer = _currentPlayer.show().sign;
+
     if (
       (physicalBoard[0][0] == currentPlayer &&
         physicalBoard[1][1] == currentPlayer &&
@@ -63,6 +64,10 @@ const GameBoard = (() => {
       console.log(physicalBoard);
       //End game if there's a winner:
       if (checkForWinner() === true) {
+        //Add played
+        Array.from(document.querySelectorAll('.card')).map((card) =>
+          card.classList.add('played')
+        );
         //_endRound();
         console.log(physicalBoard, checkForWinner());
       }
@@ -155,12 +160,14 @@ playBtn.addEventListener('click', () => {
   firstCard.classList.add('1');
   let firstPlayerName = document.createElement('h2');
   let firstPlayerScore = document.createElement('p');
+  firstPlayerScore.classList.add('player-score');
 
   let secondCard = document.createElement('div');
   secondCard.classList.add('player-card');
   secondCard.classList.add('2');
   let secondPlayerName = document.createElement('h2');
   let secondPlayerScore = document.createElement('p');
+  secondPlayerScore.classList.add('player-score');
 
   firstPlayerName.textContent = playerOneName.value;
   secondPlayerName.textContent = playerTwoName.value;
@@ -175,10 +182,10 @@ playBtn.addEventListener('click', () => {
 
 allCards = Array.from(allCards).map((card) => {
   card.addEventListener('click', () => {
-    if (card.classList.contains('.played')) {
+    if (card.classList.contains('played')) {
       return;
     }
-    card.classList.add('.played');
+    card.classList.add('played');
     //identify target card location in DOM:
     let target = event.target;
     let credentials = [target.dataset.row, target.dataset.col];
