@@ -130,7 +130,11 @@ const scoreBoard = (() => {
 
   const initScore = () => {
     players = GameBoard.showAllPlayers().map((p) => p.show());
-    players.map((p) => (p.points = 0));
+    players.map((p) => {
+      p.points = 0;
+      document.querySelector(`.${p.sign}`).textContent = p.points;
+    });
+
     console.log(players);
   };
 
@@ -138,7 +142,11 @@ const scoreBoard = (() => {
     players.forEach((p) => {
       if (chosenPlayer.sign == p.sign) {
         p.points += 1;
+        //Render point to UI:
+        let currentPlayerSign = GameBoard.showCurrentPlayer().show().sign;
+        document.querySelector(`.${currentPlayerSign}`).textContent = p.points;
       }
+
       console.log(players);
     });
   };
@@ -168,7 +176,7 @@ playBtn.addEventListener('click', () => {
   GameBoard.registerPlayer(playerOne);
   GameBoard.registerPlayer(playerTwo);
   console.log(playerOne, playerTwo);
-  scoreBoard.initScore();
+
   //choose a random starting player:
   GameBoard.pickRandomPlayer();
 
@@ -181,14 +189,20 @@ playBtn.addEventListener('click', () => {
   firstCard.classList.add('1');
   let firstPlayerName = document.createElement('h2');
   let firstPlayerScore = document.createElement('p');
-  firstPlayerScore.classList.add('player-score');
+  firstPlayerScore.classList.add(
+    'sign',
+    document.getElementById('player-1-sign').textContent
+  );
 
   let secondCard = document.createElement('div');
   secondCard.classList.add('player-card');
   secondCard.classList.add('2');
   let secondPlayerName = document.createElement('h2');
   let secondPlayerScore = document.createElement('p');
-  secondPlayerScore.classList.add('player-score');
+  secondPlayerScore.classList.add(
+    'sign',
+    document.getElementById('player-2-sign').textContent
+  );
 
   firstPlayerName.textContent = playerOneName.value;
   secondPlayerName.textContent = playerTwoName.value;
@@ -199,6 +213,7 @@ playBtn.addEventListener('click', () => {
   secondCard.appendChild(secondPlayerScore);
   scoreBoardContainerDOM.appendChild(firstCard);
   scoreBoardContainerDOM.appendChild(secondCard);
+  scoreBoard.initScore();
 });
 
 allCards = Array.from(allCards).map((card) => {
