@@ -83,7 +83,7 @@ main{
     height: 12.3rem;
     display: flex;
     flex: 1;
-    font-size: 5rem;
+    font-size: 6rem;
     font-weight: 500;
     justify-content: center;
     align-items: center;
@@ -168,6 +168,13 @@ Modal Styling:
     text-shadow: 4px 4px var(--hotpink);
 }
 
+h2#scoreboard-header{
+    margin-bottom: 0.6rem;
+    border-bottom: 5px dashed rgba(255, 255, 255, 0.514);
+    color: rgba(255, 255, 255, 0.514);
+    font-size: 1.7rem;
+}
+
 h3.modal-header{
     margin-top: 0.3rem;
     margin-bottom: 1.5rem;
@@ -234,8 +241,11 @@ Scoreboard styling:
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
-
+    width: 24rem;
+    background-color: rgba(255, 255, 255, 0.13);
+    border-radius: 20px;
+    border: 5px dashed rgba(255, 255, 255, 0.361);
+    margin-bottom: 1rem;
 }
 
 .scoreboard-container{
@@ -297,6 +307,12 @@ media queries:
     main{
         margin: 0;
     }
+
+    .main-header{
+        width: 90%;
+        margin-top: 1rem;
+    }
+
   }
 
 /*---------------------
