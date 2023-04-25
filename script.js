@@ -235,6 +235,20 @@ playBtn.addEventListener('click', () => {
 });
 
 allCards = Array.from(allCards).map((card) => {
+  card.addEventListener('mouseover', () => {
+    if (card.classList.contains('played')) {
+      return;
+    }
+    card.textContent = GameBoard.showCurrentPlayer().show().sign;
+  });
+
+  card.addEventListener('mouseout', () => {
+    if (card.classList.contains('played')) {
+      return;
+    }
+    card.textContent = '';
+  });
+
   card.addEventListener('click', () => {
     if (card.classList.contains('played')) {
       return;

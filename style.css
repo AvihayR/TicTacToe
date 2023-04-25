@@ -29,6 +29,7 @@ CSS Vars - colors:
     --light-stone: #a8a29e;
     --melon: #F9B9B7;
     --hotpink: #F06C9B;
+    --transparent-pink: #f06c9a9f;
     --yellowpeach: #F5D491;
     --papaya: #ff9a80;
     --skyblue: #96C9DC;
@@ -40,9 +41,10 @@ CSS Vars - colors:
 /*---------------------
 Header section: 
 ---------------------*/
-header{
+header,footer{
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%;
     height: 3.5rem;
     background-color: var(--skyblue);
@@ -53,6 +55,19 @@ header>h1{
     font-weight: 800;
     color: var(--hotpink);
     text-shadow: 5px 3px var(--mineralwater);
+}
+
+footer{
+    letter-spacing: 0.5vw;
+    color: white;
+    height: 2rem;
+    background-color: var(--hotpink);
+    text-shadow: 2px 1px var(--skyblue);
+}
+
+footer>h2>a{
+    font-size: 1.5rem;
+    color: var(--mineralwater);
 }
 
 h2{
@@ -88,10 +103,15 @@ main{
     justify-content: center;
     align-items: center;
     background-color: var(--melon);
-    color: var(--hotpink);
+    color: var(--transparent-pink);
     border-radius: 5px;
+    cursor: pointer;
 }
 
+.card.played{
+    color: var(--hotpink);
+    cursor: default;
+}
 
 /*-------------
 Modal Styling:
@@ -170,9 +190,11 @@ Modal Styling:
 
 h2#scoreboard-header{
     margin-bottom: 0.6rem;
-    border-bottom: 5px dashed rgba(255, 255, 255, 0.514);
-    color: rgba(255, 255, 255, 0.514);
+    border-bottom: 3px solid rgba(255, 255, 255, 0.514);
+    color: rgba(255, 255, 255, 0.716);
     font-size: 1.7rem;
+    font-weight: 600;
+    letter-spacing: 5px;
 }
 
 h3.modal-header{
@@ -263,15 +285,6 @@ Scoreboard styling:
     align-items: center;
     justify-content: space-around;
 }
-
-/*---------------------
-Footer section: 
----------------------*/
-footer{
-    background-color: var(--yellowpeach);
-    height: 2.5rem;
-}
-
 
 /*---------------------
 media queries: 
