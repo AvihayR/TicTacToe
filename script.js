@@ -146,12 +146,29 @@ const scoreBoard = (() => {
         let currentPlayerSign = GameBoard.showCurrentPlayer().show().sign;
         document.querySelector(`.${currentPlayerSign}`).textContent = p.points;
       }
-
       console.log(players);
     });
   };
 
-  return { initScore, addPoint };
+  const renderBlinkingPlayer = () => {
+    let currentPlayerSign = GameBoard.showCurrentPlayer().show().sign;
+    let allPlayerCards = document.querySelectorAll('.sign');
+    allPlayerCards = Array.from(allPlayerCards);
+    allPlayerCards.map((sign) => {
+      if (sign.classList.contains(currentPlayerSign)) {
+        sign.parentElement.classList.add('blink_me');
+      } else {
+        sign.parentElement.classList.remove('blink_me');
+      }
+    });
+    /*
+    document
+      .querySelector(`.sign.${currentPlayerSign}`)
+      .parentElement.classList.toggle('blink_me');
+    */
+  };
+
+  return { initScore, addPoint, renderBlinkingPlayer };
 })();
 
 //Query selectors:
@@ -214,6 +231,7 @@ playBtn.addEventListener('click', () => {
   scoreBoardContainerDOM.appendChild(firstCard);
   scoreBoardContainerDOM.appendChild(secondCard);
   scoreBoard.initScore();
+  scoreBoard.renderBlinkingPlayer();
 });
 
 allCards = Array.from(allCards).map((card) => {
@@ -233,5 +251,6 @@ allCards = Array.from(allCards).map((card) => {
     if (GameBoard.checkForWinner() !== true) {
       GameBoard.nextTurn(GameBoard.showAllPlayers());
     }
+    scoreBoard.renderBlinkingPlayer();
   });
 });

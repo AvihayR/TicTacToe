@@ -48,8 +48,11 @@ header{
     background-color: var(--skyblue);
 }
 
-h1{
+header>h1{
     font-size: 3rem;
+    font-weight: 800;
+    color: var(--hotpink);
+    text-shadow: 5px 3px var(--mineralwater);
 }
 
 h2{
@@ -265,6 +268,9 @@ media queries:
 ---------------------*/
 
 @media only screen and (max-width: 600px) {
+    header{
+        display: none;
+    }
     .card{
         width: 97%;
         max-height: 90%;
@@ -283,10 +289,6 @@ media queries:
         font-size: 1.5rem;
     } 
 
-    .card-container,.scoreboard-container{
-        margin-top: 15px;
-    }
-
     .player-card,.player-card>*{
         font-size: 1.5rem;
         height: 3rem;
@@ -294,5 +296,18 @@ media queries:
 
     main{
         margin: 0;
+    }
+  }
+
+/*---------------------
+Animations:
+---------------------*/
+  .blink_me {
+    animation: blinker 1s linear infinite;
+  }
+  
+  @keyframes blinker {
+    50% {
+      opacity: 0;
     }
   }
