@@ -85,13 +85,14 @@ main{
 .card-container{
     display: grid;
     height: 60vh;
-    width: max(23%,22rem);
+    width: max(20%,22rem);
     grid-template-columns: repeat(3,1fr);
     gap: 10px;
 }
 
 .card{
     width: 100%;
+    min-height: 5rem;
     display: flex;
     flex: 1;
     font-size: 4.5rem;
@@ -301,10 +302,6 @@ media queries:
 
     main{
         margin: 0;
-    }
-
-    .card{
-        width: 97%;
     }
 
     .modal>.modal-content{
