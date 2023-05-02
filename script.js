@@ -7,6 +7,12 @@ const GameBoard = (() => {
     ['', '', ''],
   ];
 
+  let winPattern = [
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', ''],
+  ];
+
   let playersContainer = [];
   let _currentPlayer;
 
@@ -28,10 +34,13 @@ const GameBoard = (() => {
     let currentPlayer = _currentPlayer.show().sign;
     //check rows & cols:
     for (let i = 0; i < 3; i++) {
-      if (
-        physicalBoard[i].every((square) => square === currentPlayer) ||
-        physicalBoard.every((row) => row[i] === currentPlayer)
-      ) {
+      if (physicalBoard[i].every((square) => square === currentPlayer)) {
+        winPattern[i] = winPattern[i].map((square) => (square = currentPlayer));
+        console.log(winPattern);
+        return true;
+      } else if (physicalBoard.every((row) => row[i] === currentPlayer)) {
+        winPattern.every((row) => (row[i] = currentPlayer));
+        console.log(winPattern);
         return true;
       }
     }
@@ -39,16 +48,37 @@ const GameBoard = (() => {
     //Check Diagonals:
 
     if (
-      (physicalBoard[0][0] == currentPlayer &&
-        physicalBoard[1][1] == currentPlayer &&
-        physicalBoard[2][2] == currentPlayer) ||
-      (physicalBoard[0][2] == currentPlayer &&
-        physicalBoard[1][1] == currentPlayer &&
-        physicalBoard[2][0] == currentPlayer)
+      physicalBoard[0][0] == currentPlayer &&
+      physicalBoard[1][1] == currentPlayer &&
+      physicalBoard[2][2] == currentPlayer
     ) {
+      winPattern[0][0] = currentPlayer;
+      winPattern[1][1] = currentPlayer;
+      winPattern[2][2] = currentPlayer;
+      console.log(winPattern);
+      return true;
+    } else if (
+      physicalBoard[0][2] == currentPlayer &&
+      physicalBoard[1][1] == currentPlayer &&
+      physicalBoard[2][0] == currentPlayer
+    ) {
+      winPattern[0][2] = currentPlayer;
+      winPattern[1][1] = currentPlayer;
+      winPattern[2][0] = currentPlayer;
+      console.log(winPattern);
       return true;
     }
     return false;
+  };
+
+  const renderWinPattern = () => {
+    let cards = Array.from(document.querySelectorAll('.card'));
+    cards = cards.filter(
+      (card) =>
+        winPattern[card.dataset.row][card.dataset.col] ==
+        GameBoard.showCurrentPlayer().show().sign
+    );
+    return cards;
   };
 
   const _endRound = () => {
@@ -104,6 +134,7 @@ const GameBoard = (() => {
     nextTurn,
     registerPlayer,
     showAllPlayers,
+    renderWinPattern,
   };
 })();
 
