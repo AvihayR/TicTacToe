@@ -78,7 +78,8 @@ const GameBoard = (() => {
         winPattern[card.dataset.row][card.dataset.col] ==
         GameBoard.showCurrentPlayer().show().sign
     );
-    return cards;
+
+    return cards.map((card) => card.classList.add('won'));
   };
 
   const _endRound = () => {
