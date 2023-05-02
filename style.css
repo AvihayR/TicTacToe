@@ -111,9 +111,10 @@ main{
 }
 
 .card.won{
-    transition: 0.6s;
-    filter:saturate(1.7);
+    transition: 0.7s;
+    filter:saturate(2);
     color: var(--skyblue);
+    text-shadow: 2px 2px white;   
 }
 
 /*-------------

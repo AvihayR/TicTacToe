@@ -18,7 +18,6 @@ const GameBoard = (() => {
 
   const registerPlayer = (player) => {
     playersContainer.push(player);
-    console.log(playersContainer);
   };
 
   const showAllPlayers = () => {
@@ -36,11 +35,11 @@ const GameBoard = (() => {
     for (let i = 0; i < 3; i++) {
       if (physicalBoard[i].every((square) => square === currentPlayer)) {
         winPattern[i] = winPattern[i].map((square) => (square = currentPlayer));
-        console.log(winPattern);
+
         return true;
       } else if (physicalBoard.every((row) => row[i] === currentPlayer)) {
         winPattern.every((row) => (row[i] = currentPlayer));
-        console.log(winPattern);
+
         return true;
       }
     }
@@ -55,7 +54,7 @@ const GameBoard = (() => {
       winPattern[0][0] = currentPlayer;
       winPattern[1][1] = currentPlayer;
       winPattern[2][2] = currentPlayer;
-      console.log(winPattern);
+
       return true;
     } else if (
       physicalBoard[0][2] == currentPlayer &&
@@ -65,7 +64,7 @@ const GameBoard = (() => {
       winPattern[0][2] = currentPlayer;
       winPattern[1][1] = currentPlayer;
       winPattern[2][0] = currentPlayer;
-      console.log(winPattern);
+
       return true;
     }
     return false;
@@ -91,8 +90,6 @@ const GameBoard = (() => {
     //_currentPlayer = this;
     if (physicalBoard[row][col] == '') {
       physicalBoard[row][col] = _currentPlayer.show().sign;
-      console.log(`Is winner: ${checkForWinner()}`);
-      console.log(physicalBoard);
       //End game if there's a winner:
       if (checkForWinner() === true) {
         scoreBoard.addPoint(GameBoard.showCurrentPlayer().show());
@@ -100,7 +97,6 @@ const GameBoard = (() => {
           card.classList.add('played')
         );
         //_endRound();
-        console.log(physicalBoard, checkForWinner());
       }
     }
   };
@@ -119,7 +115,6 @@ const GameBoard = (() => {
       (p) => p.show().sign !== GameBoard.showCurrentPlayer().show().sign
     );
     _currentPlayer = nextPlayer[0];
-    console.log(`nextPlayer is: ${nextPlayer}`);
 
     /* let nextPlayer = players.filter(
       (player) => player.show().sign !== GameBoard.showCurrentPlayer().sign
@@ -166,8 +161,6 @@ const scoreBoard = (() => {
       p.points = 0;
       document.querySelector(`.${p.sign}`).textContent = p.points;
     });
-
-    console.log(players);
   };
 
   const addPoint = (chosenPlayer) => {
@@ -178,7 +171,6 @@ const scoreBoard = (() => {
         let currentPlayerSign = GameBoard.showCurrentPlayer().show().sign;
         document.querySelector(`.${currentPlayerSign}`).textContent = p.points;
       }
-      console.log(players);
     });
   };
 
@@ -224,7 +216,6 @@ playBtn.addEventListener('click', () => {
   playerTwo = Player(playerTwoName.value, playerTwoSign.textContent);
   GameBoard.registerPlayer(playerOne);
   GameBoard.registerPlayer(playerTwo);
-  console.log(playerOne, playerTwo);
 
   //choose a random starting player:
   GameBoard.pickRandomPlayer();
