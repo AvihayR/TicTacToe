@@ -82,7 +82,11 @@ const GameBoard = (() => {
   };
 
   const _endRound = () => {
+    //Make changes in logical 2D Array:
     physicalBoard = physicalBoard.map((arr) => arr.map((i) => (i = '')));
+    //Make visible changes in UI:
+    Array.from(allCards).map((c) => c.classList.remove('played', 'won'));
+    Array.from(allCards).map((c) => (c.textContent = ''));
   };
 
   //Add player sign to the chosen location:
@@ -130,6 +134,7 @@ const GameBoard = (() => {
     registerPlayer,
     showAllPlayers,
     renderWinPattern,
+    _endRound,
   };
 })();
 
