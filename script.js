@@ -93,10 +93,14 @@ const GameBoard = (() => {
       //End game if there's a winner:
       if (checkForWinner() === true) {
         scoreBoard.addPoint(GameBoard.showCurrentPlayer().show());
-        Array.from(document.querySelectorAll('.card')).map((card) =>
-          card.classList.add('played')
-        );
+        GameBoard.renderWinPattern();
+        Array.from(allCards).map((card) => card.classList.add('played'));
         //_endRound();
+      } else if (
+        checkForWinner() === false &&
+        Array.from(allCards).every((card) => card.classList.contains('played'))
+      ) {
+        scoreBoard.Tie();
       }
     }
   };
@@ -115,11 +119,6 @@ const GameBoard = (() => {
       (p) => p.show().sign !== GameBoard.showCurrentPlayer().show().sign
     );
     _currentPlayer = nextPlayer[0];
-
-    /* let nextPlayer = players.filter(
-      (player) => player.show().sign !== GameBoard.showCurrentPlayer().sign
-    );
-    _currentPlayer = nextPlayer[0];*/
   };
 
   return {
@@ -174,6 +173,16 @@ const scoreBoard = (() => {
     });
   };
 
+  const Tie = () => {
+    players.forEach((p) => {
+      p.points += 1;
+      const signs = GameBoard.showAllPlayers().map((p) => p.show().sign);
+      signs.map(
+        (s) => (document.querySelector(`.${s}`).textContent = p.points)
+      );
+    });
+  };
+
   const renderBlinkingPlayer = () => {
     let currentPlayerSign = GameBoard.showCurrentPlayer().show().sign;
     let allPlayerCards = document.querySelectorAll('.sign');
@@ -185,14 +194,9 @@ const scoreBoard = (() => {
         sign.parentElement.classList.remove('blink_me');
       }
     });
-    /*
-    document
-      .querySelector(`.sign.${currentPlayerSign}`)
-      .parentElement.classList.toggle('blink_me');
-    */
   };
 
-  return { initScore, addPoint, renderBlinkingPlayer };
+  return { initScore, addPoint, Tie, renderBlinkingPlayer };
 })();
 
 //Query selectors:
@@ -202,7 +206,7 @@ const playerOneName = document.getElementById('player-1-name');
 const playerTwoName = document.getElementById('player-2-name');
 const playerOneSign = document.getElementById('player-1-sign');
 const playerTwoSign = document.getElementById('player-2-sign');
-const modal = document.querySelector('.modal');
+const welcomeModal = document.querySelector('.welcome.modal');
 const scoreBoardContainerDOM = document.querySelector('.scoreboard-container');
 let allCards = document.querySelectorAll('.card');
 
@@ -220,8 +224,8 @@ playBtn.addEventListener('click', () => {
   //choose a random starting player:
   GameBoard.pickRandomPlayer();
 
-  //hide modal:
-  modal.classList.add('hidden');
+  //hide welcome-modal:
+  welcomeModal.classList.add('hidden');
 
   //Create & render score board player names and signs:
   let firstCard = document.createElement('div');
@@ -257,7 +261,7 @@ playBtn.addEventListener('click', () => {
   scoreBoard.renderBlinkingPlayer();
 });
 
-allCards = Array.from(allCards).map((card) => {
+Array.from(allCards).map((card) => {
   card.addEventListener('mouseover', () => {
     if (card.classList.contains('played')) {
       return;
