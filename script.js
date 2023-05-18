@@ -99,12 +99,22 @@ const GameBoard = (() => {
         scoreBoard.addPoint(GameBoard.showCurrentPlayer().show());
         GameBoard.renderWinPattern();
         Array.from(allCards).map((card) => card.classList.add('played'));
+        setTimeout(() => {
+          scoreBoard.nextRound();
+        }, 1000);
+        roundModalHeader.textContent = `${
+          GameBoard.showCurrentPlayer().show().name
+        } Wins the round`;
         //_endRound();
       } else if (
         checkForWinner() === false &&
         Array.from(allCards).every((card) => card.classList.contains('played'))
       ) {
         scoreBoard.Tie();
+        setTimeout(() => {
+          scoreBoard.nextRound();
+        }, 1000);
+        roundModalHeader.textContent = "It's a Tie";
       }
     }
   };
@@ -137,9 +147,6 @@ const GameBoard = (() => {
     _endRound,
   };
 })();
-
-//run example:
-//GameBoard.play('x',3);
 
 //factory function - Player:
 const Player = (name, sign) => {
@@ -201,7 +208,20 @@ const scoreBoard = (() => {
     });
   };
 
-  return { initScore, addPoint, Tie, renderBlinkingPlayer };
+  const nextRound = () => {
+    //if score is less than 2, render the modal, the win checker in gameBoard will render the winner or tie into it:
+    if (players.every((player) => player.points <= 2)) {
+      welcomeModal.classList.remove('hidden');
+      roundModal.classList.remove('hidden');
+      welcomeModalContent.classList.add('hidden');
+      //Clean the board, give next player his turn, and show it to him:
+      GameBoard._endRound();
+      GameBoard.nextTurn();
+      scoreBoard.renderBlinkingPlayer();
+    }
+  };
+
+  return { initScore, addPoint, Tie, renderBlinkingPlayer, nextRound };
 })();
 
 //Query selectors:
@@ -212,8 +232,12 @@ const playerTwoName = document.getElementById('player-2-name');
 const playerOneSign = document.getElementById('player-1-sign');
 const playerTwoSign = document.getElementById('player-2-sign');
 const welcomeModal = document.querySelector('.welcome.modal');
+const welcomeModalContent = document.getElementById('modal-1');
 const scoreBoardContainerDOM = document.querySelector('.scoreboard-container');
 let allCards = document.querySelectorAll('.card');
+const roundModal = document.getElementById('modal-2');
+const roundModalHeader = roundModal.querySelector('h2');
+const roundBtn = roundModal.querySelector('.round-btn');
 
 //DOM:
 let playerOne;
@@ -299,4 +323,9 @@ Array.from(allCards).map((card) => {
     }
     scoreBoard.renderBlinkingPlayer();
   });
+});
+
+//Round modal event listener:
+roundBtn.addEventListener('click', () => {
+  welcomeModal.classList.add('hidden');
 });

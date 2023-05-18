@@ -112,7 +112,7 @@ main{
 
 .card.won{
     transition: 0.7s;
-    filter:saturate(2);
+    /*filter:saturate(2);*/
     color: var(--skyblue);
     text-shadow: 2px 2px white;   
 }
@@ -132,7 +132,17 @@ Modal Styling:
 }
 
 .hidden{
-    display: none;
+    display: none !important;
+}
+
+#modal-2{
+    justify-content: space-around;
+    height: 250px;
+    margin-top: 13rem;
+}
+
+#modal-2>h2{
+    font-size: 1.5rem;
 }
 
 .modal>.modal-content{
@@ -148,6 +158,7 @@ Modal Styling:
     border-radius: 15px;
     background-color: var(--skyblue);
 }
+
 
 .modal-content>.form-container{
     display: flex;
