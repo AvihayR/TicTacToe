@@ -74,11 +74,14 @@ header>h1{
 }
 
 footer{
+    font-family: caveat;
+    font-weight: 800;
+    font-style: italic;
     letter-spacing: 0.1vw;
     color: white;
     height: 3rem;
     background-color: var(--hotpink);
-    text-shadow: 2px 1px var(--skyblue);
+    text-shadow: 1px 1.7px var(--melon);
 }
 
 footer>h2>a{
