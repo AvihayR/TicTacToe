@@ -77,7 +77,6 @@ const GameBoard = (() => {
         winPattern[card.dataset.row][card.dataset.col] ==
         GameBoard.showCurrentPlayer().show().sign
     );
-
     return cards.map((card) => card.classList.add('won'));
   };
 
@@ -87,6 +86,8 @@ const GameBoard = (() => {
     //Make visible changes in UI:
     Array.from(allCards).map((c) => c.classList.remove('played', 'won'));
     Array.from(allCards).map((c) => (c.textContent = ''));
+    //reset the winPattern:
+    winPattern = physicalBoard;
   };
 
   //Add player sign to the chosen location:
@@ -101,10 +102,10 @@ const GameBoard = (() => {
         Array.from(allCards).map((card) => card.classList.add('played'));
         setTimeout(() => {
           scoreBoard.nextRound();
-        }, 1000);
+        }, 900);
         roundModalHeader.textContent = `${
           GameBoard.showCurrentPlayer().show().name
-        } Wins the round`;
+        } Wins the round 🥳`;
         //_endRound();
       } else if (
         checkForWinner() === false &&
@@ -113,8 +114,8 @@ const GameBoard = (() => {
         scoreBoard.Tie();
         setTimeout(() => {
           scoreBoard.nextRound();
-        }, 1000);
-        roundModalHeader.textContent = "It's a Tie";
+        }, 900);
+        roundModalHeader.textContent = "It's a Tie 💀";
       }
     }
   };
