@@ -35,6 +35,25 @@ CSS Vars - colors:
 }
 
 /*---------------------
+Fonts: 
+---------------------*/
+
+@font-face {
+    font-family: mr-dafoe;
+    src: url(Fonts/MrDafoe-Regular.ttf);
+  }
+
+  @font-face {
+    font-family: my-nerve;
+    src: url(Fonts/Mynerve-Regular.ttf);
+  }
+@font-face {
+    font-family: caveat;
+    src: url(Fonts/Caveat-VariableFont_wght.ttf);
+}
+
+
+/*---------------------
 Header section: 
 ---------------------*/
 header,footer{
@@ -47,6 +66,7 @@ header,footer{
 }
 
 header>h1{
+    font-family: mr-dafoe;
     font-size: 3rem;
     font-weight: 800;
     color: var(--hotpink);
@@ -54,9 +74,9 @@ header>h1{
 }
 
 footer{
-    letter-spacing: 0.5vw;
+    letter-spacing: 0.1vw;
     color: white;
-    height: 2rem;
+    height: 3rem;
     background-color: var(--hotpink);
     text-shadow: 2px 1px var(--skyblue);
 }
@@ -95,8 +115,9 @@ main{
     min-height: 5rem;
     display: flex;
     flex: 1;
-    font-size: 4.5rem;
-    font-weight: 500;
+    font-family: my-nerve;
+    font-size: 4rem;
+    font-weight: 700;
     justify-content: center;
     align-items: center;
     background-color: var(--melon);
@@ -145,6 +166,7 @@ Modal Styling:
     font-size: 1.5rem;
 }
 
+
 .modal>.modal-content{
     display: flex;
     flex-direction: column;
@@ -186,6 +208,7 @@ Modal Styling:
 
 #player-1-name, #player-2-name{
     width: 90%;
+    font-family:caveat;
     font-size: 2rem;
     font-weight: 700;
     border-radius: 8px;
@@ -212,6 +235,7 @@ Modal Styling:
 }
 
 h2#scoreboard-header{
+    font-family: mr-dafoe;
     margin: 2px;
     color: rgba(255, 255, 255, 0.429);
     font-size: 1.5rem;
@@ -230,12 +254,14 @@ h3.modal-header{
 }
 
 h2.player-sign{
+    font-family: my-nerve;
     font-size: 4.5rem;
     font-weight: 900;
     color: var(--hotpink);
 }
 
 .form-btn{
+    font-family: caveat;
     font-size: 1.8rem;
     border-radius: 8px;
     border: 2px solid white;
@@ -309,7 +335,8 @@ Scoreboard styling:
 }
 
 .player-card>h2{
-    font-size: 1.2rem;
+    font-family: caveat;
+    font-size: 1.4rem;
     width: 100%;
     height: 35%;
     text-overflow: ellipsis;
