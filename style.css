@@ -135,7 +135,7 @@ Modal Styling:
     display: none !important;
 }
 
-#modal-2{
+#modal-2,#modal-3{
     justify-content: space-around;
     height: 250px;
     margin-top: 13rem;
@@ -167,6 +167,14 @@ Modal Styling:
     height: 65%;
     align-items: center;
     margin-top: 15px;
+}
+
+.modal-content>p{
+    font-size: 1.3rem;
+    font-weight: 800;
+    font-style: italic;
+    color: var(--hotpink);
+    text-shadow: 3px 3px var(--mineralwater);
 }
 
 .form-container>form{

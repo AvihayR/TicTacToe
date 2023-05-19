@@ -219,10 +219,33 @@ const scoreBoard = (() => {
       GameBoard._endRound();
       GameBoard.nextTurn();
       scoreBoard.renderBlinkingPlayer();
+    } else if (players.filter((player) => player.points > 2)) {
+      announceGrandWinner();
     }
   };
 
-  return { initScore, addPoint, Tie, renderBlinkingPlayer, nextRound };
+  const announceGrandWinner = () => {
+    let grandWinners = players.filter((p) => p.points > 2);
+    let grandWinnerName = grandWinners[0].name;
+    if (grandWinners.length > 1) {
+      endingPara.textContent = "It's a Draw.";
+    } else if (grandWinners.length == 1) {
+      endingPara.textContent = `${grandWinnerName} Wins the game! 🏆`;
+    }
+    welcomeModal.classList.remove('hidden');
+    welcomeModalContent.classList.add('hidden');
+    endingModal.classList.remove('hidden');
+    roundModal.classList.add('hidden');
+  };
+
+  return {
+    initScore,
+    addPoint,
+    Tie,
+    renderBlinkingPlayer,
+    nextRound,
+    announceGrandWinner,
+  };
 })();
 
 //Query selectors:
@@ -239,7 +262,9 @@ let allCards = document.querySelectorAll('.card');
 const roundModal = document.getElementById('modal-2');
 const roundModalHeader = roundModal.querySelector('h2');
 const roundBtn = roundModal.querySelector('.round-btn');
-
+const endingModal = document.getElementById('modal-3');
+const endingPara = endingModal.querySelector('.finale-p');
+const resetBtn = endingModal.querySelector('.reset-btn');
 //DOM:
 let playerOne;
 let playerTwo;
@@ -329,4 +354,9 @@ Array.from(allCards).map((card) => {
 //Round modal event listener:
 roundBtn.addEventListener('click', () => {
   welcomeModal.classList.add('hidden');
+});
+
+//Ending modal event listener:
+resetBtn.addEventListener('click', () => {
+  location.reload();
 });
