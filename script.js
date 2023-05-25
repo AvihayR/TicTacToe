@@ -118,6 +118,7 @@ const GameBoard = (() => {
         roundModalHeader.textContent = "It's a Tie 💀";
       }
     }
+    console.log(physicalBoard);
   };
 
   const pickRandomPlayer = () => {
@@ -136,6 +137,13 @@ const GameBoard = (() => {
     _currentPlayer = nextPlayer[0];
   };
 
+  const isPlayable = (row, col) => {
+    if (physicalBoard[row][col] == '') {
+      return true;
+    } else {
+      return false;
+    }
+  };
   return {
     play,
     checkForWinner,
@@ -146,6 +154,7 @@ const GameBoard = (() => {
     showAllPlayers,
     renderWinPattern,
     _endRound,
+    isPlayable,
   };
 })();
 
@@ -162,6 +171,44 @@ const Player = (name, sign) => {
     return { name: _playerName, sign: _playerSign };
   };
   return { play, show };
+};
+//Factory Inherit - BOT:
+const Bot = (name, sign) => {
+  const prototype = Player(name, sign);
+
+  function randomInt() {
+    return Math.floor(Math.random() * 3);
+  }
+
+  const playRandom = () => {
+    let cardRow;
+    let cardCol;
+
+    function randomRowAndCol() {
+      return (cardRow = randomInt()), (cardCol = randomInt());
+    }
+
+    function filterRandomCard() {
+      randomRowAndCol();
+      return Array.from(allCards).filter(
+        (c) =>
+          c.dataset.row == cardRow &&
+          c.dataset.col == cardCol &&
+          !Array.from(c.classList).includes('played')
+      );
+    }
+
+    let filteredArray = filterRandomCard();
+
+    while (filteredArray.length < 1) {
+      filteredArray = filterRandomCard();
+    }
+
+    let [chosenCard] = filteredArray;
+    chosenCard.click();
+  };
+
+  return Object.assign({}, prototype, { playRandom });
 };
 
 const scoreBoard = (() => {
