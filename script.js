@@ -77,7 +77,6 @@ const GameBoard = (() => {
         winPattern[card.dataset.row][card.dataset.col] ==
         GameBoard.showCurrentPlayer().show().sign
     );
-    console.log(winPattern);
     return cards.map((card) => card.classList.add('won'));
   };
 
@@ -91,7 +90,6 @@ const GameBoard = (() => {
     winPattern = winPattern.map((arr) => arr.map((i) => (i = '')));
   };
 
-  //Add player sign to the chosen location:
   const play = (row, col) => {
     //_currentPlayer = this;
     if (physicalBoard[row][col] == '') {
@@ -118,7 +116,6 @@ const GameBoard = (() => {
         roundModalHeader.textContent = "It's a Tie 💀";
       }
     }
-    console.log(physicalBoard);
   };
 
   const pickRandomPlayer = () => {
@@ -312,14 +309,32 @@ const roundBtn = roundModal.querySelector('.round-btn');
 const endingModal = document.getElementById('modal-3');
 const endingPara = endingModal.querySelector('.finale-p');
 const resetBtn = endingModal.querySelector('.reset-btn');
+const botBtn = document.getElementById('bot-btn');
+
 //DOM:
 let playerOne;
 let playerTwo;
 
+//BOT Section:
+botBtn.addEventListener('click', () => {
+  event.preventDefault();
+  botBtn.classList.toggle('activated');
+  if (Array.from(botBtn.classList).includes('activated')) {
+    botBtn.innerText = 'BOT MODE: ON';
+  } else {
+    botBtn.innerText = 'BOT MODE: OFF';
+  }
+});
+
 //Start the game at the 'Play' Button:
 playBtn.addEventListener('click', () => {
   playerOne = Player(playerOneName.value, playerOneSign.textContent);
-  playerTwo = Player(playerTwoName.value, playerTwoSign.textContent);
+  if (botBtn.innerText == 'BOT MODE: ON') {
+    playerTwo = Bot(playerTwoName.value, playerTwoSign.textContent);
+  } else {
+    playerTwo = Player(playerTwoName.value, playerTwoSign.textContent);
+  }
+
   GameBoard.registerPlayer(playerOne);
   GameBoard.registerPlayer(playerTwo);
 

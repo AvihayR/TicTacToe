@@ -203,6 +203,7 @@ Modal Styling:
 }
 
 .form-container>form{
+    position: relative;
     display: flex;
     height: 80%;
     gap: 10px;
@@ -281,14 +282,25 @@ h2.player-sign{
     filter: brightness(130%);
 }
 
-.form-btn:active{
+.form-btn:active, .activated, .activated:hover{
     
     transform: translate(3px,3px);
     background: white;
     color: var(--moonstone);
-    box-shadow: 1px 1px var(--moonstone);
+    box-shadow: 2px 2px var(--moonstone);
     opacity: 0.8;
 }
+
+
+
+#bot-btn{
+    position: absolute;
+    top: 11rem;
+    margin-top: 15px;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
 
 .play-btn{
     height: 4rem;
