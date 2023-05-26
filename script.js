@@ -91,7 +91,6 @@ const GameBoard = (() => {
   };
 
   const play = (row, col) => {
-    //_currentPlayer = this;
     if (physicalBoard[row][col] == '') {
       physicalBoard[row][col] = _currentPlayer.show().sign;
       //End game if there's a winner:
@@ -132,15 +131,15 @@ const GameBoard = (() => {
       (p) => p.show().sign !== GameBoard.showCurrentPlayer().show().sign
     );
     _currentPlayer = nextPlayer[0];
-  };
 
-  const isPlayable = (row, col) => {
-    if (physicalBoard[row][col] == '') {
-      return true;
-    } else {
-      return false;
+    if (
+      GameBoard.showCurrentPlayer().show().sign == playerTwo.show().sign &&
+      botBtn.textContent == 'BOT MODE: ON'
+    ) {
+      playerTwo.playRandom();
     }
   };
+
   return {
     play,
     checkForWinner,
@@ -151,11 +150,10 @@ const GameBoard = (() => {
     showAllPlayers,
     renderWinPattern,
     _endRound,
-    isPlayable,
   };
 })();
 
-//factory function - Player:
+//Factory function - Player:
 const Player = (name, sign) => {
   const _playerSign = sign;
   const _playerName = name;
@@ -169,6 +167,7 @@ const Player = (name, sign) => {
   };
   return { play, show };
 };
+
 //Factory Inherit - BOT:
 const Bot = (name, sign) => {
   const prototype = Player(name, sign);
@@ -338,8 +337,9 @@ playBtn.addEventListener('click', () => {
   GameBoard.registerPlayer(playerOne);
   GameBoard.registerPlayer(playerTwo);
 
-  //choose a random starting player:
+  //choose a random starting player, run nextTurn to execute BOT's Play if it's turn:
   GameBoard.pickRandomPlayer();
+  GameBoard.nextTurn();
 
   //hide welcome-modal:
   welcomeModal.classList.add('hidden');
