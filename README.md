@@ -10,6 +10,6 @@
 - [Caveat Font Designed by Impallari Type](https://fonts.google.com/specimen/Caveat)
 
 ## This project was created to practice 🗻:
-- JS Factory Functions & Modules and OOP 👪
-- Organized Code📁
-- Basic JS, HTML, CSS to sharpen skills and get more hands-on exprience🤝
+- Factory Functions, IIFE 'Modules', OOP 👪
+- ES6 JS, HTML, CSS, to sharpen DOM Manipulation skills and parctice 🤝
+- Fun!
