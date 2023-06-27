@@ -1,5 +1,6 @@
 # ThiccTacToe🍑
 🚧 Still under construction 🚧
+(Bot is only making random moves for now, might adapt Minimax Algorithm to make it more intersting at the future.)
 ## Check it out: 
 [ThiccTacToe Live Porject](https://avihayr.github.io/TicTacToe/).
 
